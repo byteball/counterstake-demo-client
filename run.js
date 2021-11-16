@@ -40,6 +40,25 @@ async function sendTransfer() {
 //	process.exit();
 }
 
+async function sendTransferWithData() {
+	const src_network = 'Ethereum';
+	const signer = getSigner(src_network);
+	const txid = await transferEVM2Obyte({
+		amount: 0.1,
+		src_network,
+		src_asset: 'USDC',
+		dst_network: 'Obyte',
+		dst_asset: 'OUSD_V2',
+		data: [7, 'nn', { ss: 'f-', a: 8 }],
+		recipient_address: 'EJC4A7WQGHEZEKW6RLO7F26SAR4LAQBU',
+		assistant_reward_percent: process.env.assistant_reward_percent || 1.00,
+		signer,
+		testnet: process.env.testnet,
+	});
+	console.log({ txid });
+//	process.exit();
+}
+
 async function checkTransfer() {
 	const transfer = await getTransfer('0xe35476b263bbdb488851dc3215d06297b31b08bc8c994778c72c46de60f16923', true);
 	console.log(transfer);
@@ -52,6 +71,7 @@ csEvents.on('NewClaim', claim => {
 });
 
 sendTransfer();
+//sendTransferWithData();
 //checkTransfer();
 //estimate();
 
